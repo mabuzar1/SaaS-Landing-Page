@@ -1,5 +1,3 @@
-
-
 *{
     margin:0;
     padding:0;
@@ -7,7 +5,6 @@
 }
 
 :root{
-    /* Color */
     --primary:#2563eb;
     --primary-dark:#1e3a8a;
     --dark:#0f172a;
@@ -27,7 +24,6 @@
     --radius:12px;
     --radius-lg:20px;
 
-    /* Spacing scale — use these everywhere instead of raw px */
     --space-1:4px;
     --space-2:8px;
     --space-3:12px;
@@ -38,17 +34,17 @@
     --space-8:64px;
     --space-9:96px;
 
-    /* Type scale */
-    --fs-xs:0.8125rem;   /* 13px */
-    --fs-sm:0.9375rem;   /* 15px */
-    --fs-base:1rem;      /* 16px */
-    --fs-lg:1.125rem;    /* 18px */
-    --fs-xl:1.375rem;    /* 22px */
-    --fs-2xl:1.75rem;    /* 28px */
-    --fs-3xl:2.25rem;    /* 36px */
-    --fs-4xl:2.75rem;    /* 44px */
+    
+    --fs-xs:0.8125rem;   
+    --fs-sm:0.9375rem;   
+    --fs-base:1rem;      
+    --fs-lg:1.125rem;    
+    --fs-xl:1.375rem;    
+    --fs-2xl:1.75rem;    
+    --fs-3xl:2.25rem;  
+    --fs-4xl:2.75rem;    
 
-    /* Layout */
+    
     --header-h:72px;
     --container-max:1200px;
 }
@@ -602,7 +598,7 @@ footer{
     }
 }
 
-/* ---- Tablets (>=768px) ---- */
+
 @media(min-width:768px){
 
     :root{
@@ -639,7 +635,7 @@ footer{
     }
 }
 
-/* ---- Desktop (>=1024px): full inline nav, 3-column grids ---- */
+
 @media(min-width:1024px){
 
     header{
