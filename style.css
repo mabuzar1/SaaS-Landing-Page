@@ -1,0 +1,790 @@
+/* =====================================================================
+   LAMA AI — SaaS Landing Page Stylesheet
+   Architecture: Mobile-first. Base rules target small screens; larger
+   breakpoints (min-width) progressively enhance the layout.
+   Layout tools: CSS Grid for multi-column collections (card grids,
+   footer columns). Flexbox for one-dimensional alignment (header,
+   nav, hero actions, stat rows, card internals).
+   No CSS frameworks — all rules are hand-written.
+===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. Reset
+--------------------------------------------------------------------- */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* ---------------------------------------------------------------------
+   2. Design tokens (spacing scale, type scale, colors)
+   A consistent 4px-based spacing scale keeps rhythm predictable
+   across every section instead of ad-hoc pixel values.
+--------------------------------------------------------------------- */
+
+:root{
+    /* Color */
+    --primary:#2563eb;
+    --primary-dark:#1e3a8a;
+    --dark:#0f172a;
+    --light:#f8fafc;
+    --accent:#22c55e;
+    --accent-dark:#16a34a;
+    --gray:#64748b;
+    --gray-light:#94a3b8;
+    --white:#ffffff;
+    --border:#e2e8f0;
+
+    /* Elevation */
+    --shadow-sm:0 2px 8px rgba(15,23,42,.06);
+    --shadow:0 8px 20px rgba(15,23,42,.08);
+    --shadow-lg:0 16px 30px rgba(15,23,42,.14);
+    --radius-sm:8px;
+    --radius:12px;
+    --radius-lg:20px;
+
+    /* Spacing scale — use these everywhere instead of raw px */
+    --space-1:4px;
+    --space-2:8px;
+    --space-3:12px;
+    --space-4:16px;
+    --space-5:24px;
+    --space-6:32px;
+    --space-7:48px;
+    --space-8:64px;
+    --space-9:96px;
+
+    /* Type scale */
+    --fs-xs:0.8125rem;   /* 13px */
+    --fs-sm:0.9375rem;   /* 15px */
+    --fs-base:1rem;      /* 16px */
+    --fs-lg:1.125rem;    /* 18px */
+    --fs-xl:1.375rem;    /* 22px */
+    --fs-2xl:1.75rem;    /* 28px */
+    --fs-3xl:2.25rem;    /* 36px */
+    --fs-4xl:2.75rem;    /* 44px */
+
+    /* Layout */
+    --header-h:72px;
+    --container-max:1200px;
+}
+
+/* ---------------------------------------------------------------------
+   3. Base / typography
+--------------------------------------------------------------------- */
+
+html{
+    scroll-behavior:smooth;
+    scroll-padding-top:var(--header-h);
+    font-size:16px;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    line-height:1.6;
+    background:var(--light);
+    color:#333;
+    overflow-x:hidden;
+}
+
+body.no-scroll{
+    overflow:hidden;
+}
+
+a{
+    color:inherit;
+}
+
+h1, h2, h3, h4{
+    line-height:1.25;
+    color:var(--dark);
+}
+
+img, svg{
+    max-width:100%;
+    display:block;
+}
+
+button{
+    font-family:inherit;
+}
+
+/* Section heading + subtitle pattern used across every section,
+   establishes a consistent visual hierarchy site-wide */
+
+section > h2,
+.section-title{
+    text-align:center;
+    font-size:var(--fs-2xl);
+    color:var(--primary);
+    margin-bottom:var(--space-2);
+}
+
+.section-subtitle{
+    text-align:center;
+    color:var(--gray);
+    font-size:var(--fs-base);
+    max-width:520px;
+    margin:0 auto var(--space-7);
+}
+
+/* ---------------------------------------------------------------------
+   4. Header (Flexbox)
+--------------------------------------------------------------------- */
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:var(--space-4);
+    padding:var(--space-4) var(--space-5);
+    min-height:var(--header-h);
+    background:var(--dark);
+    color:white;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    transition:box-shadow .3s, padding .3s;
+}
+
+header.scrolled{
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:var(--space-2);
+    text-decoration:none;
+    color:white;
+    flex-shrink:0;
+}
+
+.logo{
+    width:32px;
+    height:32px;
+    flex-shrink:0;
+}
+
+.logo path{
+    fill:var(--accent);
+}
+
+.logo-eye{
+    fill:var(--dark);
+}
+
+.brand h2, .brand h3{
+    font-size:var(--fs-xl);
+    white-space:nowrap;
+}
+
+/* Nav: Flexbox for link alignment; becomes an off-canvas panel on
+   mobile (base styles) and an inline row from tablet up */
+
+nav{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:0;
+    position:fixed;
+    top:0;
+    right:0;
+    height:100vh;
+    width:min(80%, 320px);
+    background:var(--dark);
+    padding:calc(var(--header-h) + var(--space-6)) var(--space-6) var(--space-6);
+    transform:translateX(100%);
+    transition:transform .35s ease;
+    box-shadow:-10px 0 30px rgba(0,0,0,.3);
+    z-index:1050;
+}
+
+nav.active{
+    transform:translateX(0);
+}
+
+nav a{
+    text-decoration:none;
+    color:white;
+    font-weight:bold;
+    font-size:var(--fs-lg);
+    width:100%;
+    padding:var(--space-4) 0;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    position:relative;
+    transition:color .3s;
+}
+
+nav a:hover,
+nav a.active{
+    color:var(--accent);
+}
+
+.nav-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .3s, visibility .3s;
+    z-index:1040;
+}
+
+.nav-overlay.active{
+    opacity:1;
+    visibility:visible;
+}
+
+/* Hamburger (Flexbox column of 3 bars), visible by default (mobile) */
+
+.hamburger{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:5px;
+    width:42px;
+    height:42px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    z-index:1100;
+    flex-shrink:0;
+}
+
+.hamburger span{
+    display:block;
+    width:24px;
+    height:3px;
+    background:white;
+    border-radius:2px;
+    transition:transform .3s, opacity .3s, background .3s;
+}
+
+.hamburger:hover span{
+    background:var(--accent);
+}
+
+.hamburger.active span:nth-child(1){ transform:translateY(8px) rotate(45deg); }
+.hamburger.active span:nth-child(2){ opacity:0; }
+.hamburger.active span:nth-child(3){ transform:translateY(-8px) rotate(-45deg); }
+
+/* ---------------------------------------------------------------------
+   5. Hero (Flexbox for actions/stats, mobile-first font sizes)
+--------------------------------------------------------------------- */
+
+.hero{
+    position:relative;
+    text-align:center;
+    padding:var(--space-8) var(--space-5) var(--space-7);
+    background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+    color:white;
+    overflow:hidden;
+    isolation:isolate;
+}
+
+.hero-glow{
+    position:absolute;
+    inset:-20% -10% auto -10%;
+    height:140%;
+    background:
+        radial-gradient(38% 55% at 20% 20%, rgba(34,197,94,.35), transparent 70%),
+        radial-gradient(45% 60% at 85% 15%, rgba(255,255,255,.18), transparent 70%);
+    z-index:-1;
+    animation:drift 14s ease-in-out infinite alternate;
+}
+
+@keyframes drift{
+    from{ transform:translate(0,0) scale(1); }
+    to{ transform:translate(-2%, 3%) scale(1.05); }
+}
+
+.hero-inner{
+    max-width:800px;
+    margin:auto;
+    animation:heroRise .8s ease both;
+}
+
+@keyframes heroRise{
+    from{ opacity:0; transform:translateY(24px); }
+    to{ opacity:1; transform:translateY(0); }
+}
+
+.hero-badge{
+    display:inline-block;
+    padding:var(--space-2) var(--space-4);
+    margin-bottom:var(--space-5);
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+    font-size:var(--fs-xs);
+    font-weight:bold;
+    letter-spacing:.3px;
+    backdrop-filter:blur(6px);
+}
+
+.hero h1{
+    font-size:var(--fs-3xl);
+    color:white;
+    margin-bottom:var(--space-2);
+}
+
+.hero h3{
+    font-size:var(--fs-lg);
+    color:#bfdbfe;
+    margin-bottom:var(--space-5);
+    font-weight:600;
+}
+
+.hero p{
+    max-width:640px;
+    margin:0 auto var(--space-6);
+    font-size:var(--fs-base);
+}
+
+/* Flexbox: stack on mobile, row on larger screens */
+
+.hero-actions{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:var(--space-3);
+    margin-bottom:var(--space-7);
+}
+
+.hero button{
+    border:none;
+    padding:var(--space-4) var(--space-6);
+    font-size:var(--fs-base);
+    font-weight:bold;
+    border-radius:var(--radius);
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-primary{
+    background:var(--accent);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:var(--accent-dark);
+    transform:scale(1.03);
+}
+
+.btn-secondary{
+    background:transparent;
+    color:white;
+    border:2px solid rgba(255,255,255,.5) !important;
+    padding:calc(var(--space-4) - 2px) calc(var(--space-6) - 2px) !important;
+}
+
+.btn-secondary:hover{
+    background:rgba(255,255,255,.12);
+    border-color:white !important;
+    transform:scale(1.03);
+}
+
+/* Flexbox: wraps naturally on narrow screens */
+
+.hero-stats{
+    display:flex;
+    justify-content:center;
+    gap:var(--space-6);
+    flex-wrap:wrap;
+    padding-top:var(--space-6);
+    border-top:1px solid rgba(255,255,255,.2);
+}
+
+.hero-stats .stat{
+    display:flex;
+    flex-direction:column;
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .6s ease, transform .6s ease;
+}
+
+.hero-stats .stat.reveal{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.hero-stats strong{
+    font-size:var(--fs-2xl);
+    color:var(--accent);
+}
+
+.hero-stats span{
+    font-size:var(--fs-xs);
+    color:#dbeafe;
+}
+
+/* ---------------------------------------------------------------------
+   6. Sections (shared spacing rhythm)
+--------------------------------------------------------------------- */
+
+section{
+    padding:var(--space-8) var(--space-5);
+}
+
+/* ---------------------------------------------------------------------
+   7. Card grid (CSS Grid) — 1 column on mobile, scaling up at
+   larger breakpoints. This is the primary Grid use-case on the page.
+--------------------------------------------------------------------- */
+
+.cards{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:var(--space-5);
+    max-width:var(--container-max);
+    margin:0 auto;
+}
+
+.card{
+    background:var(--white);
+    padding:var(--space-6);
+    text-align:center;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    border:1px solid var(--border);
+    transition:transform .3s, box-shadow .3s, opacity .6s ease;
+    opacity:0;
+    transform:translateY(24px);
+    position:relative;
+}
+
+.card.reveal{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:var(--shadow-lg);
+}
+
+.card.reveal:hover{
+    transform:translateY(-8px);
+}
+
+.card h3{
+    color:var(--primary);
+    font-size:var(--fs-lg);
+    margin-bottom:var(--space-3);
+}
+
+.card h2{
+    color:var(--accent);
+    font-size:var(--fs-2xl);
+    margin:var(--space-3) 0;
+}
+
+.card p{
+    color:var(--gray);
+    margin:var(--space-2) 0;
+}
+
+/* ---------------------------------------------------------------------
+   8. Testimonials
+--------------------------------------------------------------------- */
+
+.testimonials .card{
+    font-style:italic;
+    text-align:left;
+}
+
+.testimonials h4{
+    margin-top:var(--space-5);
+    color:var(--primary);
+    font-style:normal;
+}
+
+/* ---------------------------------------------------------------------
+   9. Pricing
+--------------------------------------------------------------------- */
+
+.pricing .card{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    gap:var(--space-2);
+}
+
+.pricing .card.featured{
+    border:2px solid var(--primary);
+}
+
+.pricing .card.featured:hover{
+    transform:translateY(-8px);
+}
+
+.badge{
+    position:absolute;
+    top:-14px;
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--primary);
+    color:white;
+    font-size:var(--fs-xs);
+    font-weight:bold;
+    padding:var(--space-1) var(--space-4);
+    border-radius:999px;
+    box-shadow:var(--shadow);
+}
+
+/* ---------------------------------------------------------------------
+   10. Footer (CSS Grid for column layout)
+--------------------------------------------------------------------- */
+
+footer{
+    position:relative;
+    background:var(--dark);
+    color:white;
+    padding:var(--space-8) var(--space-5) var(--space-5);
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:var(--space-6);
+    max-width:var(--container-max);
+    margin:0 auto;
+}
+
+.footer-col h4{
+    color:white;
+    font-size:var(--fs-base);
+    margin-bottom:var(--space-4);
+}
+
+.footer-brand p{
+    color:var(--gray-light);
+    margin-top:var(--space-3);
+    max-width:320px;
+}
+
+.footer-logo{
+    color:white;
+}
+
+.footer-logo h3{
+    color:white;
+    font-size:var(--fs-xl);
+}
+
+.footer-links{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:var(--space-3);
+}
+
+.footer-links li,
+.footer-links a{
+    color:var(--gray-light);
+    text-decoration:none;
+    font-size:var(--fs-sm);
+    transition:color .3s;
+}
+
+.footer-links a:hover{
+    color:var(--accent);
+}
+
+.footer-bottom{
+    max-width:var(--container-max);
+    margin:var(--space-7) auto 0;
+    padding-top:var(--space-5);
+    border-top:1px solid rgba(255,255,255,.12);
+    text-align:center;
+    color:var(--gray-light);
+    font-size:var(--fs-sm);
+}
+
+.back-to-top{
+    position:fixed;
+    right:var(--space-5);
+    bottom:var(--space-5);
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    border:none;
+    background:var(--accent);
+    color:white;
+    font-size:var(--fs-lg);
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(12px);
+    transition:opacity .3s, transform .3s, visibility .3s, background .3s;
+    z-index:900;
+}
+
+.back-to-top.visible{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+}
+
+.back-to-top:hover{
+    background:var(--accent-dark);
+}
+
+/* =====================================================================
+   11. Responsive breakpoints — MOBILE FIRST
+   Base rules above already describe the mobile layout. Each query
+   below progressively enhances the design for larger viewports.
+===================================================================== */
+
+/* ---- Small tablets & up (>=560px): 2-column card grid ---- */
+@media(min-width:560px){
+
+    .cards{
+        grid-template-columns:repeat(2, 1fr);
+    }
+
+    .hero-actions{
+        flex-direction:row;
+        justify-content:center;
+    }
+
+    .hero button{
+        flex:0 1 auto;
+    }
+}
+
+/* ---- Tablets (>=768px) ---- */
+@media(min-width:768px){
+
+    :root{
+        --header-h:78px;
+    }
+
+    section{
+        padding:var(--space-9) var(--space-6);
+    }
+
+    section > h2,
+    .section-title{
+        font-size:var(--fs-3xl);
+    }
+
+    .hero{
+        padding:var(--space-9) var(--space-6) var(--space-8);
+    }
+
+    .hero h1{
+        font-size:var(--fs-4xl);
+    }
+
+    .hero h3{
+        font-size:var(--fs-xl);
+    }
+
+    .hero p{
+        font-size:var(--fs-lg);
+    }
+
+    .footer-grid{
+        grid-template-columns:repeat(2, 1fr);
+    }
+}
+
+/* ---- Desktop (>=1024px): full inline nav, 3-column grids ---- */
+@media(min-width:1024px){
+
+    header{
+        padding:var(--space-4) var(--space-8);
+    }
+
+    .hamburger{
+        display:none;
+    }
+
+    .nav-overlay{
+        display:none;
+    }
+
+    /* Nav reverts to an inline Flexbox row */
+    nav{
+        position:static;
+        flex-direction:row;
+        align-items:center;
+        height:auto;
+        width:auto;
+        background:transparent;
+        padding:0;
+        transform:none;
+        box-shadow:none;
+        gap:0;
+    }
+
+    nav a{
+        width:auto;
+        padding:var(--space-2) 0;
+        margin-left:var(--space-6);
+        border-bottom:none;
+    }
+
+    nav a::after{
+        content:"";
+        position:absolute;
+        left:0;
+        bottom:-2px;
+        width:0;
+        height:2px;
+        background:var(--accent);
+        transition:width .3s;
+    }
+
+    nav a:hover::after,
+    nav a.active::after{
+        width:100%;
+    }
+
+    .cards{
+        grid-template-columns:repeat(3, 1fr);
+    }
+
+    .pricing .card.featured{
+        transform:scale(1.05);
+    }
+
+    .pricing .card.featured:hover{
+        transform:scale(1.07) translateY(-6px);
+    }
+
+    .footer-grid{
+        grid-template-columns:2fr 1fr 1fr 1fr;
+    }
+}
+
+/* ---- Large desktop (>=1280px) ---- */
+@media(min-width:1280px){
+
+    .hero h1{
+        font-size:3.25rem;
+    }
+}
+
+/* ---------------------------------------------------------------------
+   12. Accessibility
+--------------------------------------------------------------------- */
+
+@media(prefers-reduced-motion:reduce){
+    *{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+        scroll-behavior:auto !important;
+    }
+}
+
+:focus-visible{
+    outline:3px solid var(--accent);
+    outline-offset:2px;
+}
