@@ -1,28 +1,10 @@
-/* =====================================================================
-   LAMA AI — SaaS Landing Page Stylesheet
-   Architecture: Mobile-first. Base rules target small screens; larger
-   breakpoints (min-width) progressively enhance the layout.
-   Layout tools: CSS Grid for multi-column collections (card grids,
-   footer columns). Flexbox for one-dimensional alignment (header,
-   nav, hero actions, stat rows, card internals).
-   No CSS frameworks — all rules are hand-written.
-===================================================================== */
 
-/* ---------------------------------------------------------------------
-   1. Reset
---------------------------------------------------------------------- */
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
-
-/* ---------------------------------------------------------------------
-   2. Design tokens (spacing scale, type scale, colors)
-   A consistent 4px-based spacing scale keeps rhythm predictable
-   across every section instead of ad-hoc pixel values.
---------------------------------------------------------------------- */
 
 :root{
     /* Color */
@@ -71,10 +53,6 @@
     --container-max:1200px;
 }
 
-/* ---------------------------------------------------------------------
-   3. Base / typography
---------------------------------------------------------------------- */
-
 html{
     scroll-behavior:smooth;
     scroll-padding-top:var(--header-h);
@@ -111,8 +89,6 @@ button{
     font-family:inherit;
 }
 
-/* Section heading + subtitle pattern used across every section,
-   establishes a consistent visual hierarchy site-wide */
 
 section > h2,
 .section-title{
@@ -130,9 +106,6 @@ section > h2,
     margin:0 auto var(--space-7);
 }
 
-/* ---------------------------------------------------------------------
-   4. Header (Flexbox)
---------------------------------------------------------------------- */
 
 header{
     display:flex;
@@ -181,8 +154,6 @@ header.scrolled{
     white-space:nowrap;
 }
 
-/* Nav: Flexbox for link alignment; becomes an off-canvas panel on
-   mobile (base styles) and an inline row from tablet up */
 
 nav{
     display:flex;
@@ -238,7 +209,6 @@ nav a.active{
     visibility:visible;
 }
 
-/* Hamburger (Flexbox column of 3 bars), visible by default (mobile) */
 
 .hamburger{
     display:flex;
@@ -272,9 +242,6 @@ nav a.active{
 .hamburger.active span:nth-child(2){ opacity:0; }
 .hamburger.active span:nth-child(3){ transform:translateY(-8px) rotate(-45deg); }
 
-/* ---------------------------------------------------------------------
-   5. Hero (Flexbox for actions/stats, mobile-first font sizes)
---------------------------------------------------------------------- */
 
 .hero{
     position:relative;
@@ -388,7 +355,7 @@ nav a.active{
     transform:scale(1.03);
 }
 
-/* Flexbox: wraps naturally on narrow screens */
+
 
 .hero-stats{
     display:flex;
@@ -422,18 +389,12 @@ nav a.active{
     color:#dbeafe;
 }
 
-/* ---------------------------------------------------------------------
-   6. Sections (shared spacing rhythm)
---------------------------------------------------------------------- */
+
 
 section{
     padding:var(--space-8) var(--space-5);
 }
 
-/* ---------------------------------------------------------------------
-   7. Card grid (CSS Grid) — 1 column on mobile, scaling up at
-   larger breakpoints. This is the primary Grid use-case on the page.
---------------------------------------------------------------------- */
 
 .cards{
     display:grid;
@@ -487,9 +448,6 @@ section{
     margin:var(--space-2) 0;
 }
 
-/* ---------------------------------------------------------------------
-   8. Testimonials
---------------------------------------------------------------------- */
 
 .testimonials .card{
     font-style:italic;
@@ -502,9 +460,6 @@ section{
     font-style:normal;
 }
 
-/* ---------------------------------------------------------------------
-   9. Pricing
---------------------------------------------------------------------- */
 
 .pricing .card{
     position:relative;
@@ -535,9 +490,6 @@ section{
     box-shadow:var(--shadow);
 }
 
-/* ---------------------------------------------------------------------
-   10. Footer (CSS Grid for column layout)
---------------------------------------------------------------------- */
 
 footer{
     position:relative;
@@ -634,13 +586,6 @@ footer{
     background:var(--accent-dark);
 }
 
-/* =====================================================================
-   11. Responsive breakpoints — MOBILE FIRST
-   Base rules above already describe the mobile layout. Each query
-   below progressively enhances the design for larger viewports.
-===================================================================== */
-
-/* ---- Small tablets & up (>=560px): 2-column card grid ---- */
 @media(min-width:560px){
 
     .cards{
@@ -763,17 +708,12 @@ footer{
     }
 }
 
-/* ---- Large desktop (>=1280px) ---- */
 @media(min-width:1280px){
 
     .hero h1{
         font-size:3.25rem;
     }
 }
-
-/* ---------------------------------------------------------------------
-   12. Accessibility
---------------------------------------------------------------------- */
 
 @media(prefers-reduced-motion:reduce){
     *{
